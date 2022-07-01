@@ -1,6 +1,7 @@
 import { ObjectId } from 'mongodb';
+import { BaseModel } from './baseModel';
 
-export default interface PaymentMethod {
+export interface PaymentMethod extends BaseModel {
   _id: ObjectId;
   ownerId: ObjectId;
   description: string;

@@ -1,8 +1,9 @@
 import { ObjectID } from 'bson';
 import { DateTime } from 'luxon';
 import { ObjectId } from 'mongodb';
+import { BaseModel } from './baseModel';
 
-export default interface Transaction {
+export interface Transaction extends BaseModel {
   _id: ObjectId;
   payerId: ObjectId;
   subscriptionId: ObjectID;

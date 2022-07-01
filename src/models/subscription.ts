@@ -1,12 +1,13 @@
 import { DateTime } from 'luxon';
 import { ObjectId } from 'mongodb';
+import { BaseModel } from './baseModel';
 
-export default interface SubscriptionMember {
+export interface SubscriptionMember extends BaseModel {
   userId: ObjectId;
   transactions: ObjectId[];
 }
 
-export default interface Subscription {
+export interface Subscription extends BaseModel {
   _id: ObjectId;
   name: string;
   ownerId: ObjectId;

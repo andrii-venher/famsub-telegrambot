@@ -16,13 +16,17 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.0.1",
+    "luxon": "^2.4.0",
     "module-alias": "^2.2.2",
+    "mongodb": "^4.7.0",
     "node-fetch": "^3.2.6",
     "reflect-metadata": "^0.1.13",
     "telegraf": "^4.8.5",
     "typedi": "^0.10.0"
   },
   "devDependencies": {
+    "@types/luxon": "^2.3.2",
+    "@types/mongodb": "^4.0.7",
     "@types/node": "^18.0.0",
     "nodemon": "^2.0.18",
     "prettier": "^2.7.1",

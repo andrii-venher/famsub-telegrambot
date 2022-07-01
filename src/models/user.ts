@@ -1,8 +1,7 @@
 import { ObjectId } from 'mongodb';
-import PaymentMethod from './paymentMethod';
-import Subscription from './subscription';
+import { BaseModel } from './baseModel';
 
-export default interface User {
+export interface User extends BaseModel {
   _id: ObjectId;
   telegramId: string;
   telegramUsername: string;

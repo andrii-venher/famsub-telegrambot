@@ -5,18 +5,8 @@ import Container from 'typedi';
 import bot from './bot';
 import UserService from './services/userService';
 
-async function test() {
-  const userService = Container.get(UserService);
-
-  const userResponse = await userService.getById('626523a9717bf4e5649ee7e7');
-
-  console.log(userResponse.status);
-}
-
 async function start(): Promise<void> {
   await require('./loaders').default();
-
-  // test();
 
   await bot.launch();
   console.log('Success: bot started');

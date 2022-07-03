@@ -1,12 +1,8 @@
+import { User } from '@/models';
 import UserService from '@/services/userService';
 import { Context } from 'telegraf';
-import Container from 'typedi';
 
 export interface BotContext extends Context {
+  user: User | null;
   userService: UserService;
 }
-
-export const injectServices = (ctx: BotContext, next: () => Promise<void>) => {
-  ctx.userService = Container.get(UserService);
-  return next();
-};

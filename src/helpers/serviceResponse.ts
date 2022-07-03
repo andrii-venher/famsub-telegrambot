@@ -3,6 +3,7 @@ export enum ServiceResponseStatus {
   NotFound = 'not_found',
   Created = 'created',
   AlreadyExists = 'already_exists',
+  Problem = 'problem',
 }
 
 export interface ServiceResponse<T> {

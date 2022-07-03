@@ -11,11 +11,15 @@ export default {
   env: process.env.NODE_ENV,
   bot: {
     token: process.env.BOT_TOKEN || '',
+    scenes: {
+      subscriptionCreate: 'SUBSCRIPTION_CREATE_SCENE',
+    },
   },
   mongo: {
     connectionString: process.env.MONGO_CONNECTION_STRING || '',
     db: process.env.MONGO_DB_NAME || '',
     collections: {
+      botSession: 'bot-session',
       users: 'users',
       subscriptions: 'subscriptions',
       paymentMethods: 'paymentMethods',

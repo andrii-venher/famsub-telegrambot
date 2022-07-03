@@ -23,8 +23,8 @@ export default class UserService extends BaseService<User> {
     };
   }
 
-  public async getByMongoId(_id: ObjectId): Promise<ServiceResponse<User>> {
-    const user: User = await this.usersCollection.findOne<User>({ _id: _id });
+  public async getByMongoId(mongoId: ObjectId): Promise<ServiceResponse<User>> {
+    const user: User = await this.usersCollection.findOne<User>({ _id: mongoId });
     if (user === null) {
       return {
         status: ServiceResponseStatus.NotFound,

@@ -1,20 +1,25 @@
 import config from '@/config';
+import { Db } from 'mongodb';
 import { Telegraf } from 'telegraf';
+import { session } from 'telegraf-session-mongodb';
+import Container from 'typedi';
 import { BotContext } from './context';
 import { injectServices, injectUser, updateUser } from './middleware';
+import { stage } from './scenes';
 
-const bot = new Telegraf<BotContext>(config.bot.token);
+export function buildBot() {
+  const bot = new Telegraf<BotContext>(config.bot.token);
 
-bot.use(injectServices);
-bot.use(injectUser);
-bot.use(updateUser);
+  bot.use(injectServices);
+  bot.use(injectUser);
+  bot.use(updateUser);
 
-bot.start(async (ctx) => {
-  console.log(ctx.user);
-});
+  bot.use(session(Container.get(Db), { collectionName: config.mongo.collections.botSession }));
+  bot.use(stage.middleware());
 
-bot.on('text', (ctx) => {
-  console.log(ctx.user);
-});
+  bot.command('sub', (ctx) => {
+    ctx.scene.enter(config.bot.scenes.subscriptionCreate);
+  });
 
-export default bot;
+  return bot;
+}

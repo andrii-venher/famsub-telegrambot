@@ -1,5 +1,6 @@
 import { ServiceResponse, ServiceResponseStatus } from '@/helpers/serviceResponse';
 import { User } from '@/models';
+import SubscriptionService from '@/services/subscriptionService';
 import UserService from '@/services/userService';
 import { User as TelegramUser } from 'telegraf/typings/core/types/typegram';
 import Container from 'typedi';
@@ -7,6 +8,7 @@ import { BotContext } from './context';
 
 export function injectServices(ctx: BotContext, next: () => Promise<void>) {
   ctx.userService = Container.get(UserService);
+  ctx.subscriptionService = Container.get(SubscriptionService);
   return next();
 }
 

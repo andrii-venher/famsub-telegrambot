@@ -10,7 +10,7 @@ export default class UserService extends BaseService<User> {
   private usersCollection: Collection<User> = this.db.collection(config.mongo.collections.users);
 
   public async getByTelegramId(id: number): Promise<ServiceResponse<User>> {
-    const user: User = await this.usersCollection.findOne<User>({ telergamId: id });
+    const user: User = await this.usersCollection.findOne<User>({ telegramId: id });
     if (user === null) {
       return {
         status: ServiceResponseStatus.NotFound,
@@ -49,7 +49,7 @@ export default class UserService extends BaseService<User> {
         };
       } else {
         return {
-          status: ServiceResponseStatus.Problem,
+          status: ServiceResponseStatus.Error,
           data: null,
         };
       }
@@ -78,6 +78,15 @@ export default class UserService extends BaseService<User> {
         },
       }
     );
-    console.log(updateResult);
+    if (updateResult.ok) {
+      return {
+        status: ServiceResponseStatus.Success,
+        data: updateResult.value,
+      };
+    }
+    return {
+      status: ServiceResponseStatus.Error,
+      data: null,
+    };
   }
 }

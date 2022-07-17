@@ -1,6 +1,7 @@
 import config from '@/config';
 import { ServiceResponse, ServiceResponseStatus } from '@/helpers/serviceResponse';
 import { Subscription } from '@/models';
+import { Periodicity } from '@/models/subscription';
 import { DateTime } from 'luxon';
 import { Collection, ObjectId } from 'mongodb';
 import { Service } from 'typedi';
@@ -40,8 +41,14 @@ export default class SubscriptionService extends BaseService<Subscription> {
     if (subscription.lastBill) {
       subscription.lastBillTimestamp = subscription.lastBill.toSeconds();
     }
+
+    if (subscription.periodicity === Periodicity.Monthly) {
+      subscription.billDay = subscription.nextBill.day;
+    }
+
     subscription.nextBill = undefined;
     subscription.lastBill = undefined;
+
     const insertResult = await this.subscriptionsCollection.insertOne(subscription);
     if (insertResult.acknowledged) {
       const createdSubscriptionResponse = await this.getByMongoId(insertResult.insertedId);
@@ -67,7 +74,7 @@ export default class SubscriptionService extends BaseService<Subscription> {
     const subscriptionResponse = await this.getByMongoId(subscriptionMongoId);
     if (subscriptionResponse.status === ServiceResponseStatus.Success) {
       const subscription = subscriptionResponse.data;
-      if (subscription.members.map((x) => x.userId).includes(userMongoId)) {
+      if (subscription.members?.map((x) => x.userId).includes(userMongoId)) {
         return {
           status: ServiceResponseStatus.AlreadyExists,
           data: null,
@@ -99,6 +106,30 @@ export default class SubscriptionService extends BaseService<Subscription> {
     } else {
       return {
         status: ServiceResponseStatus.NotFound,
+        data: null,
+      };
+    }
+  }
+
+  public async update(subscription: Subscription): Promise<ServiceResponse<number>> {
+    const updateResult = await this.subscriptionsCollection.updateOne(
+      { _id: subscription._id },
+      {
+        $set: {
+          lastBillTimestamp: subscription.lastBillTimestamp,
+          nextBillTimestamp: subscription.nextBillTimestamp,
+          members: subscription.members,
+        },
+      }
+    );
+    if (updateResult.acknowledged) {
+      return {
+        status: ServiceResponseStatus.Success,
+        data: updateResult.modifiedCount,
+      };
+    } else {
+      return {
+        status: ServiceResponseStatus.Error,
         data: null,
       };
     }

@@ -20,10 +20,15 @@ export default {
     db: process.env.MONGO_DB_NAME || '',
     collections: {
       botSession: 'bot-session',
+      agenda: 'agenda-billing',
       users: 'users',
       subscriptions: 'subscriptions',
       paymentMethods: 'paymentMethods',
       transactions: 'transactions',
     },
+  },
+  agenda: {
+    defaultLockLifetime: 1 * 60 * 1000,
+    hardDelete: true,
   },
 };

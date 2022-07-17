@@ -102,6 +102,7 @@ const finish = async (ctx: BotContext<Subscription>) => {
   const subscriptionResponse = await ctx.subscriptionService.create(ctx.scene.session.data);
   if (subscriptionResponse.status === ServiceResponseStatus.Created) {
     const subscription = subscriptionResponse.data;
+    await ctx.biller.schedule(subscription._id);
     console.log(`Success: subscription created ${subscription._id}`);
     ctx.replyWithHTML(
       `Created the following subscription:\n` +

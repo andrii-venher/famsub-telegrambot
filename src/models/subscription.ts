@@ -3,7 +3,7 @@ import { ObjectId } from 'mongodb';
 import { BaseModel } from './baseModel';
 import { Currency } from './currency';
 
-export interface SubscriptionMember extends BaseModel {
+export interface SubscriptionMember {
   userId: ObjectId;
   balance: number;
   transactions?: ObjectId[];
@@ -26,4 +26,5 @@ export interface Subscription extends BaseModel {
   lastBillTimestamp?: number;
   nextBill?: DateTime;
   nextBillTimestamp?: number;
+  billDay?: number;
 }

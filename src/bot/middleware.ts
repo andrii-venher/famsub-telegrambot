@@ -1,3 +1,4 @@
+import Biller from '@/biller';
 import { ServiceResponse, ServiceResponseStatus } from '@/helpers/serviceResponse';
 import { User } from '@/models';
 import SubscriptionService from '@/services/subscriptionService';
@@ -9,6 +10,7 @@ import { BotContext } from './context';
 export function injectServices(ctx: BotContext, next: () => Promise<void>) {
   ctx.userService = Container.get(UserService);
   ctx.subscriptionService = Container.get(SubscriptionService);
+  ctx.biller = Container.get(Biller);
   return next();
 }
 

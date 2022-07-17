@@ -1,3 +1,4 @@
+import Biller from '@/biller';
 import { User } from '@/models';
 import SubscriptionService from '@/services/subscriptionService';
 import UserService from '@/services/userService';
@@ -15,4 +16,5 @@ export interface BotContext<T = any> extends Context {
   user: User | null;
   userService: UserService;
   subscriptionService: SubscriptionService;
+  biller: Biller;
 }
